@@ -30,6 +30,7 @@ import com.evernote.android.job.JobProxy;
 import com.evernote.android.job.JobRequest;
 import com.evernote.android.job.util.JobCat;
 import com.evernote.android.job.util.JobUtil;
+import static com.evernote.android.job.PendingIntentUtil.flagImmutable;
 
 /**
  * @author rwondratschek
@@ -173,12 +174,12 @@ public class JobProxy14 implements JobProxy {
 
     @Override
     public boolean isPlatformJobScheduled(JobRequest request) {
-        PendingIntent pendingIntent = getPendingIntent(request, PendingIntent.FLAG_NO_CREATE);
+        PendingIntent pendingIntent = getPendingIntent(request, PendingIntent.FLAG_NO_CREATE | flagImmutable());
         return pendingIntent != null;
     }
 
     protected int createPendingIntentFlags(boolean repeating) {
-        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT | flagImmutable();
         if (!repeating) {
             flags |= PendingIntent.FLAG_ONE_SHOT;
         }
